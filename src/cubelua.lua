@@ -46,11 +46,10 @@ function _M.Router:route(request)
                     request.parameter[key] = value
                 end
             end
-            path.callback(request)
-            return true 
+            return path.callback(request)
         end
     end
-    return false
+    return 404, {['Content-Type'] = 'text/html; charset=utf8'}, '404 Not Found'
 end
 
 return _M
