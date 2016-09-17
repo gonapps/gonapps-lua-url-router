@@ -52,4 +52,14 @@ function _M.Router:route(request)
     return 404, {['Content-Type'] = 'text/html; charset=utf8'}, '404 Not Found'
 end
 
+function _M.parseQueryString(request)
+    if request.queryString ~= nil then
+        for pair in string.gmatch(request.queryString, '([^&]+)') do
+            for key, value in string.gmatch(pair, '([^=]+)=([^=]+)') do
+                request.parameters[key] = value
+            end
+        end
+    end
+end
+
 return _M
