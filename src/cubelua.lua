@@ -56,10 +56,14 @@ function _M.parseQueryString(request)
     if request.queryString ~= nil then
         for pair in string.gmatch(request.queryString, '([^&]+)') do
             for key, value in string.gmatch(pair, '([^=]+)=([^=]+)') do
-                request.parameters[key] = value
+                request.parameters[_M.decodeURI(key)] = _M.decodeURI(value)
             end
         end
     end
+end
+
+function _M.decodeURI(uri)
+    return string.gsub(uri, '%%(%x%x)', function(hex) return string.char(tonumber(hex, 16)) end)
 end
 
 return _M
