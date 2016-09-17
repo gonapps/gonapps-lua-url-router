@@ -43,7 +43,7 @@ function _M.Router:route(request)
         if result ~= nil then
             for key, value in pairs(result) do
                 if type(key) == 'string' then
-                    request.parameter[key] = value
+                    request.parameters[key] = value
                 end
             end
             return path.callback(request)
