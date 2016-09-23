@@ -1,5 +1,5 @@
 local _M = {}
-local regex = require 'rex_pcre'
+local regex = require "rex_pcre"
 
 local Path = {}
 Path.__index = Path
@@ -42,20 +42,20 @@ function _M.Router:route(request)
         result = path:match(request.pathInfo, request.method)
         if result ~= nil then
             for key, value in pairs(result) do
-                if type(key) == 'string' then
+                if type(key) == "string" then
                     request.parameters[_M.decodeURI(key)] = _M.decodeURI(value)
                 end
             end
             return path.callback(request)
         end
     end
-    return 404, {['Content-Type'] = 'text/html; charset=utf8'}, '404 Not Found'
+    return 404, {["Content-Type"] = "text/html; charset=utf8"}, "404 Not Found"
 end
 
 function _M.parseQueryString(request)
     if request.queryString ~= nil then
-        for pair in string.gmatch(request.queryString, '([^&]+)') do
-            for key, value in string.gmatch(pair, '([^=]+)=([^=]+)') do
+        for pair in string.gmatch(request.queryString, "([^&]+)") do
+            for key, value in string.gmatch(pair, "([^=]+)=([^=]+)") do
                 request.parameters[_M.decodeURI(key)] = _M.decodeURI(value)
             end
         end
@@ -63,7 +63,7 @@ function _M.parseQueryString(request)
 end
 
 function _M.decodeURI(uri)
-    return string.gsub(uri, '%%(%x%x)', function(hex) return string.char(tonumber(hex, 16)) end)
+    return string.gsub(uri, "%%(%x%x)", function(hex) return string.char(tonumber(hex, 16)) end)
 end
 
 return _M
