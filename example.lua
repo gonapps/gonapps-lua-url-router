@@ -1,5 +1,4 @@
-local cubelua = require "tucube.http.router" 
-local router = cubelua.Router:new()
+local router = require "tucube.http.router".new()
 router:setCallback('/member/(?<number>\\d+)', 'GET', function(request) print(request.parameters['number']) end)
 local request = {}
 request.parameters = {}
