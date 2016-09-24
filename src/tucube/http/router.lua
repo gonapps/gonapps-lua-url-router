@@ -23,47 +23,34 @@ function Path:match(pattern, method)
     end
 end
 
-_M.Router = {}
-_M.Router.__index = _M.Router
+local function decodeURL(url)
+    return string.gsub(url, "%%(%x%x)", function(hex) return string.char(tonumber(hex, 16)) end)
+end
 
-function _M.Router.new()
-    local self = setmetatable({}, _M.Router)
+function _M.new()
+    local self = setmetatable({}, {__index = _M})
     self.paths = {}
     return self
 end
 
-function _M.Router:setCallback(pattern, method, callback)
+function _M:setCallback(pattern, method, callback)
     table.insert(self.paths, Path.new(pattern, method, callback))
 end
 
-function _M.Router:route(request)
+function _M:route(request)
     local result
     for _, path in ipairs(self.paths) do
         result = path:match(request.pathInfo, request.method)
         if result ~= nil then
             for key, value in pairs(result) do
                 if type(key) == "string" then
-                    request.parameters[_M.decodeURI(key)] = _M.decodeURI(value)
+                    request.parameters[decodeURL(key)] = decodeURL(value)
                 end
             end
             return path.callback(request)
         end
     end
     return 404, {["Content-Type"] = "text/html; charset=utf8"}, "404 Not Found"
-end
-
-function _M.parseQueryString(request)
-    if request.queryString ~= nil then
-        for pair in string.gmatch(request.queryString, "([^&]+)") do
-            for key, value in string.gmatch(pair, "([^=]+)=([^=]+)") do
-                request.parameters[_M.decodeURI(key)] = _M.decodeURI(value)
-            end
-        end
-    end
-end
-
-function _M.decodeURI(uri)
-    return string.gsub(uri, "%%(%x%x)", function(hex) return string.char(tonumber(hex, 16)) end)
 end
 
 return _M
