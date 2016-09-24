@@ -14,9 +14,7 @@ end
 
 function Path:match(pattern, method)
     if self.method == method then
-        local _
-        local result
-         _, _, result = self.regex:tfind(pattern)
+        local _, _, result = self.regex:tfind(pattern)
         return result
     else
         return nil

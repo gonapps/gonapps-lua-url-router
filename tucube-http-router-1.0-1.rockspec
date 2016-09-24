@@ -8,7 +8,7 @@ source = {
 
 description = {
     summary = "",
-    detailed = [[]]
+    detailed = [[]],
     homepage = "http://github.com/gonapps/tucube-http-lua-router",
     license = "LGPLv3"
 }
