@@ -1,6 +1,6 @@
 local _M = {}
 local regex = require "rex_pcre"
-
+local urlDecoder = require "gonapps.url.decoder"
 local Path = {}
 Path.__index = Path
 
@@ -21,10 +21,6 @@ function Path:match(pattern, method)
     end
 end
 
-local function decodeURL(url)
-    return string.gsub(url, "%%(%x%x)", function(hex) return string.char(tonumber(hex, 16)) end)
-end
-
 function _M.new()
     local self = setmetatable({}, {__index = _M})
     self.paths = {}
@@ -42,7 +38,7 @@ function _M:route(request)
         if result ~= nil then
             for key, value in pairs(result) do
                 if type(key) == "string" then
-                    request.parameters[decodeURL(key)] = decodeURL(value)
+                    request.parameters[urlDecoder.rawDecode(key)] = urlDecoder.rawDecode(value)
                 end
             end
             return path.callback(request)

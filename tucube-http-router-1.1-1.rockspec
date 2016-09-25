@@ -1,9 +1,9 @@
 package = "tucube-http-router"
-version = "1.0-1"
+version = "1.1-1"
 
 source = {
     url = "git://github.com/gonapps/tucube-http-lua-router",
-    tag = "v1.0"
+    tag = "v1.1"
 }
 
 description = {
@@ -15,7 +15,8 @@ description = {
 
 dependencies = {
     "lua >= 5.1",
-    "lrexlib-pcre >= 2.8.0-1"
+    "lrexlib-pcre >= 2.8.0-1",
+    "gonapps-url-decoder >= 1.0-1"
 }
 
 build = {
