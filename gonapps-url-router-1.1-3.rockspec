@@ -1,16 +1,16 @@
 package = "gonapps-url-router"
-version = "1.1-2"
+version = "1.1-3"
 
 source = {
     url = "git://github.com/gonapps/gonapps-lua-url-router",
-    tag = "v1.1-2"
+    tag = "v1.1-3"
 }
 
 description = {
     summary = "",
     detailed = [[]],
     homepage = "http://github.com/gonapps/gonapps-lua-url-router",
-    license = "LGPLv3"
+    license = "Mozilla Public License 2.0"
 }
 
 dependencies = {
