@@ -31,20 +31,29 @@ function _M:setCallback(pattern, method, callback)
     table.insert(self.paths, Path.new(pattern, method, callback))
 end
 
-function _M:route(request)
+function _M:route(client)
     local result
     for _, path in ipairs(self.paths) do
-        result = path:match(request.pathInfo, request.method)
+        result = path:match(client.request.pathInfo, client.request.method)
         if result ~= nil then
             for key, value in pairs(result) do
                 if type(key) == "string" then
-                    request.parameters[urlDecoder.rawDecode(key)] = urlDecoder.rawDecode(value)
+                    client.request.parameters[urlDecoder.rawDecode(key)] = urlDecoder.rawDecode(value)
                 end
             end
-            return path.callback(request)
+            local statusCode, headers, body = path.callback(client.request)
+            client.response:writeVersion(client.request.versionMajor, versionMinor)
+            client.response:writeStatusCode(statusCode)
+            for key, value in pairs(headers) do
+                client.response:writeStringHeader(key, value)
+            end
+            client.response:writeStringBody(body)
+            return
         end
     end
-    return 404, {["Content-Type"] = "text/html; charset=utf8"}, "404 Not Found"
+    client.response:writeVersion(client.request.versionMajor, versionMinor)
+    client.response:writeStatusCode(404)
+    client.response:writeStringBody("404 Not Found")
 end
 
 return _M
