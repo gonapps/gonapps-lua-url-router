@@ -1,9 +1,9 @@
 package = "gonapps-url-router"
-version = "1.2"
+version = "1.2-1"
 
 source = {
     url = "git://github.com/gonapps/gonapps-lua-url-router",
-    tag = "v1.2"
+    tag = "v1.2-1"
 }
 
 description = {
