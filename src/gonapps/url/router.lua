@@ -45,7 +45,7 @@ function _M:route(client)
             client.response:writeVersion(client.request.versionMajor, versionMinor)
             client.response:writeStatusCode(statusCode)
             for key, value in pairs(headers) do
-                client.response:writeStringHeader(key, value)
+                client.response:writeHeader(key, value)
             end
             client.response:writeBody(body)
             return
