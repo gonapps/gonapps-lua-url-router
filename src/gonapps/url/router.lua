@@ -47,13 +47,13 @@ function _M:route(client)
             for key, value in pairs(headers) do
                 client.response:writeStringHeader(key, value)
             end
-            client.response:writeStringBody(body)
+            client.response:writeBody(body)
             return
         end
     end
     client.response:writeVersion(client.request.versionMajor, versionMinor)
     client.response:writeStatusCode(404)
-    client.response:writeStringBody("404 Not Found")
+    client.response:writeBody("404 Not Found")
 end
 
 return _M
